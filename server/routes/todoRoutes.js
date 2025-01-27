@@ -3,14 +3,17 @@ const {
   getTodos,
   createTodo,
   updateTodo,
+  toggleTodoStatus,
   deleteTodo,
 } = require('../controllers/todoController');
 
 const router = express.Router();
 
-router.get('/get-todos', getTodos);          // Get all todos
-router.post('/post-todo', createTodo);       // Create a new todo
-router.put('/update-todo/:id', updateTodo);  // Update a todo by ID
-router.delete('/delete-todo/:id', deleteTodo); // Delete a todo by ID
+// Simplified routes without prefixes
+router.get('/todos', getTodos);                    // Get all todos
+router.post('/todos', createTodo);                 // Create a new todo
+router.put('/todos/:id', updateTodo);              // Update a todo
+router.patch('/todos/:id/toggle', toggleTodoStatus); // Toggle todo status
+router.delete('/todos/:id', deleteTodo);           // Delete a todo
 
 module.exports = router;
