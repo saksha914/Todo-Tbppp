@@ -11,24 +11,28 @@ export const createTask = async (req, res) => {
             project,
         } = req.body;
 
-        const task = new Task({
+        const taskData = {
             title,
             description,
             dueDate,
             priority,
-            project,
             createdBy: req.user.id
-        });
+        };
 
+        // Only add project if it's provided and not empty
+        if (project && project.trim() !== '') {
+            taskData.project = project;
+        }
+
+        const task = new Task(taskData);
         await task.save();
 
         // If task is part of a project, update project's tasks array
-        if (project) {
-            await Project.findByIdAndUpdate(project, {
+        if (task.project) {
+            await Project.findByIdAndUpdate(task.project, {
                 $push: { tasks: task._id }
             });
         }
-
 
         res.status(201).json(task);
     } catch (error) {
@@ -48,7 +52,9 @@ export const getTasks = async (req, res) => {
             limit = 10
         } = req.query;
 
-        const query = {};
+        const query = {
+            createdBy: req.user.id
+        };
 
         if (project) query.project = project;
         if (status) query.status = status;

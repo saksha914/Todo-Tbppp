@@ -24,19 +24,6 @@ export const register = async (req, res) => {
         // Generate verification token
         const verificationToken = generateToken(user._id, '1h');
 
-        // Send verification email
-        await sendEmail({
-            to: email,
-            subject: 'Verify your email',
-            html: `
-        <h1>Welcome to Todo App!</h1>
-        <p>Please verify your email by clicking the link below:</p>
-        <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">
-          Verify Email
-        </a>
-      `
-        });
-
         // Generate JWT token
         const token = generateToken(user._id);
 

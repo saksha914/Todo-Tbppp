@@ -42,7 +42,6 @@ interface TaskState {
   createTask: (task: Omit<Task, '_id' | 'createdAt' | 'updatedAt' | '__v' | 'createdBy' | 'order'>) => Promise<void>;
   updateTask: (id: string, task: Partial<Task>) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
-  reorderTasks: (taskIds: string[]) => Promise<void>;
 }
 
 export const useTaskStore = create<TaskState>((set) => ({
@@ -112,18 +111,6 @@ export const useTaskStore = create<TaskState>((set) => ({
       }));
     } catch (error: any) {
       set({ error: error.response?.data?.message || 'Failed to delete task' });
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-
-  reorderTasks: async (taskIds) => {
-    try {
-      set({ isLoading: true, error: null });
-      await tasksApi.reorderTasks({ taskIds });
-      await useTaskStore.getState().getTasks();
-    } catch (error: any) {
-      set({ error: error.response?.data?.message || 'Failed to reorder tasks' });
     } finally {
       set({ isLoading: false });
     }

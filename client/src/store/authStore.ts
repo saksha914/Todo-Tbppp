@@ -16,7 +16,6 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
-  getProfile: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -54,17 +53,5 @@ export const useAuthStore = create<AuthState>((set) => ({
   logout: () => {
     localStorage.removeItem('token');
     set({ user: null, token: null, isAuthenticated: false });
-  },
-
-  getProfile: async () => {
-    try {
-      set({ isLoading: true, error: null });
-      const response = await authApi.getProfile();
-      set({ user: response.data });
-    } catch (error: any) {
-      set({ error: error.response?.data?.message || 'Failed to get profile' });
-    } finally {
-      set({ isLoading: false });
-    }
   },
 })); 
