@@ -11,17 +11,14 @@ import projectRoutes from './routes/projects.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Enable CORS for development
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/projects', projectRoutes);
