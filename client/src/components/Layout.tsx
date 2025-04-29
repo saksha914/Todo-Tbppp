@@ -1,7 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { Fragment } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Disclosure, } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const navigation = [
@@ -11,7 +10,7 @@ const navigation = [
 ];
 
 export default function Layout() {
-  const { user, logout } = useAuthStore();
+  const {  logout } = useAuthStore();
   const location = useLocation();
 
   return (
